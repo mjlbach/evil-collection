@@ -91,7 +91,7 @@ also uses `evil-mode'."
       (call-interactively 'evil-delete))))
 
 (defun evil-collection-vterm-delete-line ()
-  "Provide similar behavior as `evil-delete'."
+  "Provide similar behavior as `evil-delete-line'."
   (interactive)
   (let ((inhibit-read-only t)
         )
