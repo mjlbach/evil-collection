@@ -62,6 +62,58 @@ also uses `evil-mode'."
                        "vterm"
                      "emacs"))))
 
+(defun vterm-evil-insert ()
+  (interactive)
+  (vterm-goto-char (point))
+  (call-interactively #'evil-insert))
+
+(defun vterm-evil-insert-line ()
+  (interactive)
+  (vterm-goto-char (vterm--get-prompt-point))
+  (call-interactively #'evil-insert))
+
+(defun vterm-evil-append ()
+  (interactive)
+  (vterm-goto-char (1+ (point)))
+  (call-interactively #'evil-append))
+
+(defun vterm-evil-append-line ()
+  (interactive)
+  (vterm-goto-char (vterm--get-end-of-line))
+  (call-interactively #'evil-append))
+
+(defun vterm-evil-delete ()
+  "Provide similar behavior as `evil-delete'."
+  (interactive)
+  (let ((inhibit-read-only t)
+        )
+    (cl-letf (((symbol-function #'delete-region) #'vterm-delete-region))
+      (call-interactively 'evil-delete))))
+
+(defun vterm-evil-delete-line ()
+  "Provide similar behavior as `evil-delete'."
+  (interactive)
+  (let ((inhibit-read-only t)
+        )
+    (cl-letf (((symbol-function #'delete-region) #'vterm-delete-region))
+      (call-interactively 'evil-delete-line))))
+
+(evil-define-operator vterm-evil-delete-backward-char (beg end type register)
+  "Delete previous character."
+  :motion evil-backward-char
+  (interactive "<R><x>")
+  (let ((inhibit-read-only t)
+        )
+    (cl-letf (((symbol-function #'delete-region) #'vterm-delete-region))
+      (evil-delete beg end type register))))
+
+(defun vterm-evil-change ()
+  "Provide similar behavior as `evil-change'."
+  (interactive)
+  (let ((inhibit-read-only t))
+    (cl-letf (((symbol-function #'delete-region) #'vterm-delete-region))
+      (call-interactively 'evil-change))))
+
 ;;;###autoload
 (defun evil-collection-vterm-setup ()
   "Set up `evil' bindings for `vterm'."
@@ -101,7 +153,22 @@ also uses `evil-mode'."
     "[[" 'vterm-previous-prompt
     "]]" 'vterm-next-prompt
     "p" 'vterm-yank
-    "u" 'vterm-undo))
+    "a" 'vterm-evil-append
+    "A" 'vterm-evil-append-line
+    ;; "d" 'vterm-evil-delete
+    ;; "D" 'vterm-evil-delete-line
+    ;; "x" 'vterm-evil-delete-char
+    (kbd "RET") 'vterm-send-return
+    "i" 'vterm-evil-insert
+    "I" 'vterm-evil-insert-line
+    ;; "c" 'vterm-evil-change
+    "u" 'vterm-undo)
 
+  (evil-collection-define-key 'visual 'vterm-mode-map
+    ;; "d" 'vterm-evil-delete
+    ;; "x" 'vterm-evil-delete
+    ;; "c" 'vterm-evil-change
+    ;; "c" 'vterm-evil-replace
+    ))
 (provide 'evil-collection-vterm)
 ;;; evil-collection-vterm.el ends here
