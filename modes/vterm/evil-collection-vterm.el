@@ -70,7 +70,7 @@ also uses `evil-mode'."
 (defun evil-collection-vterm-insert-line ()
   (interactive)
   (vterm-goto-char (vterm--get-prompt-point))
-  (call-interactively #'evil-insert-line))
+  (call-interactively #'evil-insert))
 
 (defun evil-collection-vterm-append ()
   (interactive)
@@ -87,7 +87,7 @@ also uses `evil-mode'."
   (interactive)
   (let ((inhibit-read-only t))
     (cl-letf (((symbol-function #'delete-region) #'vterm-delete-region))
-      (call-interactively 'evil-delete))))
+      (call-interactively 'evil-delete)))
 
 (defun evil-collection-vterm-delete-line ()
   "Provide similar behavior as `evil-delete-line'."
