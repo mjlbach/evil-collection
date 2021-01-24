@@ -62,27 +62,27 @@ also uses `evil-mode'."
                        "vterm"
                      "emacs"))))
 
-(defun vterm-evil-insert ()
+(defun evil-collection-vterm-insert ()
   (interactive)
   (vterm-goto-char (point))
   (call-interactively #'evil-insert))
 
-(defun vterm-evil-insert-line ()
+(defun evil-collection-vterm-insert-line ()
   (interactive)
   (vterm-goto-char (vterm--get-prompt-point))
-  (call-interactively #'evil-insert))
+  (call-interactively #'evil-insert-line))
 
-(defun vterm-evil-append ()
+(defun evil-collection-vterm-append ()
   (interactive)
   (vterm-goto-char (1+ (point)))
   (call-interactively #'evil-append))
 
-(defun vterm-evil-append-line ()
+(defun evil-collection-vterm-append-line ()
   (interactive)
   (vterm-goto-char (vterm--get-end-of-line))
   (call-interactively #'evil-append))
 
-(defun vterm-evil-delete ()
+(defun evil-collection-vterm-delete ()
   "Provide similar behavior as `evil-delete'."
   (interactive)
   (let ((inhibit-read-only t)
@@ -90,7 +90,7 @@ also uses `evil-mode'."
     (cl-letf (((symbol-function #'delete-region) #'vterm-delete-region))
       (call-interactively 'evil-delete))))
 
-(defun vterm-evil-delete-line ()
+(defun evil-collection-vterm-delete-line ()
   "Provide similar behavior as `evil-delete'."
   (interactive)
   (let ((inhibit-read-only t)
@@ -98,7 +98,7 @@ also uses `evil-mode'."
     (cl-letf (((symbol-function #'delete-region) #'vterm-delete-region))
       (call-interactively 'evil-delete-line))))
 
-(evil-define-operator vterm-evil-delete-backward-char (beg end type register)
+(evil-define-operator evil-collection-vterm-delete-backward-char (beg end type register)
   "Delete previous character."
   :motion evil-backward-char
   (interactive "<R><x>")
@@ -107,7 +107,7 @@ also uses `evil-mode'."
     (cl-letf (((symbol-function #'delete-region) #'vterm-delete-region))
       (evil-delete beg end type register))))
 
-(defun vterm-evil-change ()
+(defun evil-collection-vterm-change ()
   "Provide similar behavior as `evil-change'."
   (interactive)
   (let ((inhibit-read-only t))
@@ -153,22 +153,22 @@ also uses `evil-mode'."
     "[[" 'vterm-previous-prompt
     "]]" 'vterm-next-prompt
     "p" 'vterm-yank
-    "a" 'vterm-evil-append
-    "A" 'vterm-evil-append-line
-    ;; "d" 'vterm-evil-delete
-    ;; "D" 'vterm-evil-delete-line
-    ;; "x" 'vterm-evil-delete-char
+    "a" 'evil-collection-vterm-append
+    "A" 'evil-collection-vterm-append-line
+    "d" 'evil-collection-vterm-delete
+    "D" 'evil-collection-vterm-delete-line
+    ;; "x" 'evil-collection-vterm-delete-char
     (kbd "RET") 'vterm-send-return
-    "i" 'vterm-evil-insert
-    "I" 'vterm-evil-insert-line
-    ;; "c" 'vterm-evil-change
+    "i" 'evil-collection-vterm-insert
+    "I" 'evil-collection-vterm-insert-line
+    ;; "c" 'evil-collection-vterm-change
     "u" 'vterm-undo)
 
   (evil-collection-define-key 'visual 'vterm-mode-map
-    ;; "d" 'vterm-evil-delete
-    ;; "x" 'vterm-evil-delete
-    ;; "c" 'vterm-evil-change
-    ;; "c" 'vterm-evil-replace
+    ;; "d" 'evil-collection-vterm-delete
+    ;; "x" 'evil-collection-vterm-delete
+    ;; "c" 'evil-collection-vterm-change
+    ;; "r" 'evil-collection-vterm-replace
     ))
 (provide 'evil-collection-vterm)
 ;;; evil-collection-vterm.el ends here
