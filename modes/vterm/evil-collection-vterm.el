@@ -85,16 +85,14 @@ also uses `evil-mode'."
 (defun evil-collection-vterm-delete ()
   "Provide similar behavior as `evil-delete'."
   (interactive)
-  (let ((inhibit-read-only t)
-        )
+  (let ((inhibit-read-only t))
     (cl-letf (((symbol-function #'delete-region) #'vterm-delete-region))
       (call-interactively 'evil-delete))))
 
 (defun evil-collection-vterm-delete-line ()
   "Provide similar behavior as `evil-delete-line'."
   (interactive)
-  (let ((inhibit-read-only t)
-        )
+  (let ((inhibit-read-only t))
     (cl-letf (((symbol-function #'delete-region) #'vterm-delete-region))
       (call-interactively 'evil-delete-line))))
 
@@ -102,8 +100,7 @@ also uses `evil-mode'."
   "Delete previous character."
   :motion evil-backward-char
   (interactive "<R><x>")
-  (let ((inhibit-read-only t)
-        )
+  (let ((inhibit-read-only t))
     (cl-letf (((symbol-function #'delete-region) #'vterm-delete-region))
       (evil-delete beg end type register))))
 
