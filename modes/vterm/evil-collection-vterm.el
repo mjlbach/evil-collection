@@ -86,7 +86,7 @@ also uses `evil-mode'."
   "Provide similar behavior as `evil-delete'."
   (interactive)
   (let ((inhibit-read-only t))
-    (cl-letf (((symbol-function #'delete-region) #'vterm-delete-region))
+    (cl-letf (((symbol-function 'delete-region) 'vterm-delete-region))
       (call-interactively 'evil-delete))))
 
 (defun evil-collection-vterm-delete-line ()
