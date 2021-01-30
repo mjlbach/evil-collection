@@ -96,8 +96,8 @@ also uses `evil-mode'."
 Delete text from BEG to END with TYPE.
 Save in REGISTER or in the kill-ring with YANK-HANDLER."
   (interactive "<R><x><y>")
-  (let* ((beg (max (or beg (point)) (vterm--get-prompt-point)))
-         (end (min (or end beg) (vterm--get-end-of-line))))
+  (let* ((beg (max (or beg (point)) (1+ (vterm--get-prompt-point))))
+         (end (min (or end beg) (1- (vterm--get-end-of-line)))))
     (unless register
       (let ((text (filter-buffer-substring beg end)))
         (unless (string-match-p "\n" text)
